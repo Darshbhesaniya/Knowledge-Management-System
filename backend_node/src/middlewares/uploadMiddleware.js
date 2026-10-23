@@ -1,28 +1,31 @@
 const multer = require('multer');
 
- // Allowed MIME types
-    const allowedMimeTypes = [
-        // PDF
-        'application/pdf',
-        // Microsoft Word
-        'application/msword',
-        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        // CSV
-        'text/csv',
-        'application/csv',
-        // Markdown
-        'text/markdown',
-        'text/x-markdown',
-        // Text files
-        'text/plain',
-        // Additional common types
-        'application/rtf',
-        'application/vnd.oasis.opendocument.text'
-    ];
+// Allowed MIME types
+const allowedMimeTypes = [
+    // PDF
+    'application/pdf',
+    // Microsoft Word
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    // Microsoft PowerPoint
+    'application/vnd.ms-powerpoint',
+    'application/vnd.openxmlformats-officedocument.presentationml.presentation',
+    // CSV
+    'text/csv',
+    'application/csv',
+    // Markdown
+    'text/markdown',
+    'text/x-markdown',
+    // Text files
+    'text/plain',
+    // Additional common types
+    'application/rtf',
+    'application/vnd.oasis.opendocument.text'
+];
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null,"uploads/");
+        cb(null, "uploads/");
     },
 });
 
@@ -30,10 +33,10 @@ const fileFilter = (req, file, cb) => {
     if (allowedMimeTypes.includes(file.mimetype)) {
         cb(null, true);
     } else {
-        cb(new Error(`File type ${file.mimetype} is not allowed. Allowed types: PDF, DOC/DOCX, CSV, Markdown, TXT`), false);
+        cb(new Error(`File type ${file.mimetype} is not allowed. Allowed types: PDF, DOC/DOCX, CSV, Markdown, TXT, PPTX/PPT`), false);
     }
 };
-
+ 
 const upload = multer({
     storage,
     fileFilter,

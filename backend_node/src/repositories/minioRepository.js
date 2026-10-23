@@ -1,7 +1,6 @@
 const Minio = require('minio');
 const fs = require('fs');
 
-console.log('MinIO endpoint:', process.env.MINIO_ENDPOINT);
 const minioClient = new Minio.Client({
     endPoint: process.env.MINIO_ENDPOINT,
     port: parseInt(process.env.MINIO_PORT, 10),

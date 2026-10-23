@@ -1,2 +1,6 @@
 backend_node/node_modules
 backend_node/.env
+ai_python/.env
+ai_python/.venv/
+ai_python/__pycache__/
+streamlit-ui/.venv/

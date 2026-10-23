@@ -1,7 +1,12 @@
 const { randomUUID } = require('crypto')
 const fs = require('fs').promises;
+const { Queue } = require('bullmq');
 
 const minioRepository = require('../repositories/minioRepository');
+
+const documentQueue = new Queue('document-processing-queue', {
+    connection: { host: 'localhost', port: 6379 }
+})
 
 const processMultipleFiles = async (files) => {
     const uploadFileNames = [];
@@ -18,6 +23,13 @@ const processMultipleFiles = async (files) => {
                 file.mimetype
             );
 
+            // Add file in Redis Queue
+            await documentQueue.add('process-pdf-job', {
+                fileName: fileName,
+                bucketName: process.env.MINIO_BUCKET_NAME
+            });
+            console.log(`Job added to Queue for ${fileName}`);
+        
             uploadFileNames.push(fileName);
             } catch (error) {
                 console.log(`Error Uploading ${fileName}: `, error);
